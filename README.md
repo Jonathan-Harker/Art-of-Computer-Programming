@@ -1,5 +1,5 @@
 # Art-of-Computer-Programming
-Adding my attempts to the exercise solutions in form of documentation and code
+Adding my attempts to the exercise solutions in form of documentation and code. 
 ##1.1
 ### Exercise 1
 **Rearrange a, b, c, d to b, c, d, a**  
