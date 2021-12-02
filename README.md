@@ -1,4 +1,6 @@
 # Art-of-Computer-Programming
+Adding my attempts to the exercise solutions in form of documentation and code. 
+##1.1
 Adding my attempts to the exercise solutions in form of documentation and code
 ## 1.1
 ### Exercise 1
@@ -41,3 +43,4 @@ Algorithm F - this looks like recursion
 
 The whole expression becomes the second arg  
 The second part of the expression, after the first modulus sign, becomes the first arg  
+
