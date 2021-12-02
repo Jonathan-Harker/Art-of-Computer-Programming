@@ -1,6 +1,4 @@
 # Art-of-Computer-Programming
-Adding my attempts to the exercise solutions in form of documentation and code. 
-##1.1
 Adding my attempts to the exercise solutions in form of documentation and code
 ## 1.1
 ### Exercise 1
