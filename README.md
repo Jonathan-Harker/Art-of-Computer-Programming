@@ -42,3 +42,21 @@ Algorithm F - this looks like recursion
 The whole expression becomes the second arg  
 The second part of the expression, after the first modulus sign, becomes the first arg  
 
+So I seem to have overcomplicated this one...
+
+### Exercise 4
+**Find the highest common divisor of 6099 and 2166**  
+m=6099, n=2166
+* E1: r=1767
+* E2: False
+* E3: m=2166, n=1767
+* E1: r=399
+* E2: False
+* E3: m=1767, n=399
+* E1: r=171
+* E2: False
+* E3: m=399, n=171
+* E1: r=57
+* E2: False
+* E3: m=171, n=57
+* E2: True **solution is 57**
