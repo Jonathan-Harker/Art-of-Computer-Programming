@@ -1,6 +1,12 @@
 # Art-of-Computer-Programming
-Adding my attempts to the exercise solutions in form of documentation and code
-## 1.1
+As I enjoy getting lost in the world of algorithms I have made a project out of working through the excellent work "The Art of Computer Programming" by Donald Knuth.  
+
+Here are my attempts to the exercise solutions in form of documentation and code.  
+
+There is not enough context to attempt all answers. For example questions about diagrams in the book.  
+
+I will not be adding the authors answers as this is to demonstrate my understanding of the questions posed.
+## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
   
@@ -30,7 +36,7 @@ E3: Set m <- n, n <- r
 **Attempted Solution**  
 * r = m % n  
 * We set m < n and n < r  
-* This equals m < n and n < m % n  
+* This equals m < n and n < m % n 
 * Whatever the value of n, m must be greater than m % n  
 * m > m % n
 </details>
@@ -51,6 +57,7 @@ E3: Set m <- n, n <- r
   The second part of the expression, after the first modulus sign, becomes the first arg  
 
   So I seem to have overcomplicated this one...
+  I have created a [recursive solution]("/exercises/chapter_1/one/euclids_algorithm") based on this
 </details>
 
 
@@ -71,5 +78,39 @@ E3: Set m <- n, n <- r
   * E1: r=57
   * E2: False
   * E3: m=171, n=57
-  * E2: True **solution is 57**
+  * E2: True  
+
+**Solution: 57**
+</details>
+
+<details>
+<summary>Exercise 6: What is the average number of times step E1 is performed when n=5?</summary>
+
+m=1 -> 1  
+m=2 -> 2  
+m=3 -> 3  
+m=4 -> 2  
+m=5 -> 1  
+m=6 -> 2  
+m=7 -> 3  
+m=8 -> 4  
+m=9 -> 3  
+m=10 -> 1  
+m=11 -> 2  
+m=12 -> 3  
+m=13 -> 4  
+m=14 -> 3  
+m=15 -> 1  
+m=16 -> 2  
+m=17 -> 3  
+m=18 -> 4  
+m=19 -> 3  
+m=20 -> 1  
+
+Average = 48 / 20 = 2.4
+Check solution using the [recursive function]("/exercises/chapter_1/one/exercise_six").  
+Setting m to 1,000,000 can be run in a reasonable time with the answer of 2.599996.  
+This is very close to 2.6  
+
+**Solution: 2.6**
 </details>

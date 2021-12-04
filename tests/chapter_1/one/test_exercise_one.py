@@ -1,4 +1,4 @@
-from exercises.chapter_1.one.excerise_one import rearrange_numbers
+from exercises.chapter_1.one.exercise_one import rearrange_numbers
 
 
 def test_rearrange_ints_are_correct():
