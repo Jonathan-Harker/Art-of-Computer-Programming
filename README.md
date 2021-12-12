@@ -114,3 +114,39 @@ This is very close to 2.6
 
 **Solution: 2.6**
 </details>
+
+## 1.2.1 Proof by Induction
+<details>
+<summary>Prove that the Fibonacci numbers satisfy F(n) >= ϕ<sup>n-2</sup></summary>
+
+Where:
+
+* ϕ = (1 + √5) / 2  
+* 1 + ϕ = ϕ<sup>2</sup>   
+
+Test:
+* F<sub>(1)</sub> = 1
+* F<sub>(1)</sub> >= ϕ<sup>n-2</sup> = ϕ<sup>-1</sup>
+* 1 >= ϕ<sup>-1</sup>
+* 1 >= 1 / ϕ
+* ϕ >= 1 (Multiply by ϕ)
+* (1 + √5) / 2 >= 1 (Sub real value for ϕ)
+* 1 + √5 >= 2
+* √5 >= 1 (Test is True)
+
+Assert:
+* F<sub>(n)</sub> >= ϕ<sup>n-2</sup>
+* So F<sub>(n+1)</sub> >= ϕ<sup>n-1</sup>
+* And F<sub>(n-1)</sub> >= ϕ<sup>n-3</sup>
+
+Prove:
+* F<sub>(n+1)</sub> >= F<sub>(n-1)</sub> + F<sub>(n)</sub> (The next in the sequence adds the previous 2 numebrs)
+* F<sub>(n+1)</sub> >= ϕ<sup>n-3</sup> + ϕ<sup>n-2</sup> (Substitute for the phi)
+* ϕ<sup>n-3</sup> + ϕ<sup>n-2</sup> = ϕ<sup>n-3</sup>(1 + ϕ)
+* ϕ<sup>n-3</sup>(1 + ϕ) = ϕ<sup>n-3</sup>(ϕ<sup>2</sup>) (As 1 + ϕ = ϕ<sup>2</sup>)
+* ϕ<sup>n-3</sup>(ϕ<sup>2</sup>) = ϕ<sup>n-1</sup>
+* ϕ<sup>n-3</sup> + ϕ<sup>n-2</sup> = ϕ<sup>n-1</sup>
+* F<sub>(n+1)</sub> >= ϕ<sup>n-1</sup>
+* F<sub>(n)</sub> >= ϕ<sup>n-2</sup> - **Proof is Correct**
+
+</details>
