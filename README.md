@@ -150,3 +150,33 @@ Prove:
 * F<sub>(n)</sub> >= ϕ<sup>n-2</sup> - **Proof is Correct**
 
 </details>
+
+## 1.2.2 Powers and Logarithms
+<details>
+<summary>What is -3<sup>-3</sup></summary>
+
+-3<sup>-3</sup> = -1/3<sup>3</sup> = **1/27**
+</details>
+
+<details>
+<summary>What is 0.125<sup>-2/3</sup></summary>
+
+* 0.125<sup>-2/3</sup> = (1/8)<sup>-2/3</sup>
+* (1/8)<sup>-2/3</sup> = <sup>3</sup>√(1/8)<sup>2</sup>
+* <sup>3</sup>√(1/8)<sup>2</sup> = 1 / (1/2)<sup>2</sup>
+* 1 / (1/2)<sup>2</sup> = 1 / (1/4)
+* 1 / (1/4) = **4**
+</details>
+
+<details>
+<summary>Will a 14 digit integer fit in a computer word with a capacity of 47 bits?</summary>
+
+Let us assume that the 14 digit integer is going be at its max value.  
+This would make the integer have a value of 99,999,999,999,999 or 9.9 * 10<sup>13</sup>  
+Lets call this integer *i*   
+Mathematically this question is asking is 47 >= log<sub>2</sub>(i)?  
+We could ask what is the max value that a 47 bit integer will hold?  
+This is simple to answer as it is 2<sup>47</sup> which is 1.4 * 10<sup>14</sup>  
+The max allowed value of 1.4 * 10<sup>14</sup> is much greater than 9.9 * 10<sup>13</sup>  
+Therefore **Yes the 14 digit integer will fit into a 47 bit value**
+</details>
