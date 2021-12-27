@@ -1,4 +1,5 @@
 import json
+import os.path
 
 
 class LogCalculator:
@@ -20,13 +21,15 @@ class LogCalculator:
         return self.algo(x=x, z=x >> self.k)
 
     def lookup_log(self, numerator: int) -> float:
-        with open('log_constants.json', 'r') as f:
+        this_dir = os.path.dirname(os.path.realpath(__file__))
+        with open(f'{this_dir}/log_constants.json', 'r') as f:
             table = json.load(f)
 
         return table[str(self.base)][str(numerator)]
 
 
 if __name__ == "__main__":
-    log_x = 8 * 8 * 8 * 8 * 8
-    lc = LogCalculator(base=8)
+    base = 15
+    log_x = pow(base, exp=7)
+    lc = LogCalculator(base=base)
     print(lc.algo(z=log_x >> 1, x=log_x))
