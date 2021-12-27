@@ -1,4 +1,4 @@
-from exercises.chapter_1.two.log_table import make_log_table
+import json
 
 
 def algo(y: int, z: int, x: int, k: int, base: int) -> float:
@@ -17,8 +17,10 @@ def algo(y: int, z: int, x: int, k: int, base: int) -> float:
 
 
 def lookup_log(numerator: int, base: int) -> float:
-    table = make_log_table(base)
-    return table[numerator]
+    with open('log_constants.json', 'r') as f:
+        table = json.load(f)
+
+    return table[str(base)][str(numerator)]
 
 
 if __name__ == "__main__":
