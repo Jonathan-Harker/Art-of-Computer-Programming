@@ -1,22 +1,9 @@
-# calculate log2(16) - logb(x)
-# input
-from math import log
-
-b = 2
+from exercises.chapter_1.two.log_table import make_log_table
 
 
-def start(x):
-    y = 0
-    z = x >> 1
-    k = 1
-
-    return y, z, x, k
-
-
-def algo(y, z, x, k):
+def algo(y: int, z: int, x: int, k: int, base: int) -> float:
     if x == 1:
-        print(y)
-        exit(0)
+        return int(y)
 
     while x - z < 1:
         z >>= 1
@@ -25,14 +12,15 @@ def algo(y, z, x, k):
     x -= z
     z = x >> k
     two_k = pow(base=2, exp=k)
-    y += log(two_k / (two_k - 1), b)
-    # y += get_log(int(two_k / (two_k - 1)))
-    return algo(y, z, x, k)
+    y += lookup_log(numerator=two_k, base=base)
+    return algo(y, z, x, k, base)
 
 
-def get_log(x):
-    y, z, x, k = start(x=x)
-    algo(y, z, x, k)
+def lookup_log(numerator: int, base: int) -> float:
+    table = make_log_table(base)
+    return table[numerator]
 
 
-get_log(x=2)
+if __name__ == "__main__":
+    log_x = 8 * 8 * 8 * 8 * 8
+    print(algo(y=0, z=log_x >> 1, x=log_x, k=1, base=8))
