@@ -180,3 +180,88 @@ This is simple to answer as it is 2<sup>47</sup> which is 1.4 * 10<sup>14</sup>
 The max allowed value of 1.4 * 10<sup>14</sup> is much greater than 9.9 * 10<sup>13</sup>  
 Therefore **Yes the 14 digit integer will fit into a 47 bit value**
 </details>
+
+## 1.2.3 Sums and Product
+<details>
+<summary>What is the equivalent of each side of <sub>i=1</sub><sup>3</sup>𝚺 <sub>j=1</sub><sup>i</sup>𝚺a<sub>ij</sub> = <sub>j=1</sub><sup>3</sup>𝚺 <sub>i=j</sub><sup>3</sup>𝚺a<sub>ij</sub></summary>
+
+We are dealing with a loop within a loop. However, the inner loop is either reduced or incremented by an iteration each time the outer loop iterates.  
+
+**LHS** - <sub>i=1</sub><sup>3</sup>𝚺 <sub>j=1</sub><sup>i</sup>𝚺a<sub>ij</sub>
+* i=1 j=1 11 (next j gets reset, i gets incremented)
+* i=2 j=1 21
+* i=2 j=2 22 (next j gets reset, i gets incremented)
+* i=3 j=1 31
+* i=3 j=2 32
+* i=3 j=3 33 (now both loops end)  
+
+**LHS** = a<sub>11</sub> + (a<sub>21</sub> + a<sub>22</sub>) + (a<sub>31</sub> + a<sub>32</sub> + a<sub>33</sub>)
+
+**RHS** - <sub>j=1</sub><sup>3</sup>𝚺 <sub>i=j</sub><sup>3</sup>𝚺a<sub>ij</sub>
+* i=1 j=1 11
+* i=2 j=1 21
+* i=3 j=1 31 (j gets incremented, i gets reset to j)
+* i=2 j=2 22
+* i=3 j=2 32 (j gets incremented, i gets reset to j)
+* i=3 j-3 33 (now both loops end)  
+
+**RHS** = (a<sub>11</sub> + a<sub>21</sub> + a<sub>31</sub>) + (a<sub>22</sub> + a<sub>32</sub>) + a<sub>33</sub>  
+
+**RHS == LHS**
+</details>
+
+<details>
+<summary>Write the sequence 9*1+3=11, 9*12+3=111, 9*123+4=1111, 9*1234+5=11111 in sigma notation</summary>
+
+If we were solving this in programming then we could use string parsing. However, a mathematical solution is more elegant.  
+
+I have taken the authors solutions here and applied them to the case of n=4.
+
+General formulae for base 10 is 9 <sub>k=0</sub><sup>n</sup>𝚺(n-k)10<sup>k</sup> + (n+1)  
+Note that the multiplication by 9 and the addition of 5 is done on the result of the sum.  
+
+Where n=4:  
+9 <sub>k=0</sub><sup>4</sup>𝚺(4-k)10<sup>k</sup> + 5  
+
+Summation loop as follows:
+* k<sub>0</sub> = (4-0)10<sup>0</sup> = 4*1 = 4
+* k<sub>1</sub> = (4-1)10<sup>1</sup> = 3*10 = 30
+* k<sub>2</sub> = (4-2)10<sup>2</sup> = 2*100 = 200
+* k<sub>3</sub> = (4-3)10<sup>3</sup> = 1*1000 = 1000
+* k<sub>4</sub> = (4-4)10<sup>3</sup> = 0*10000 = 0
+
+Sum total: 1000 + 200 + 30 + 4 = 1234  
+Multiply by 9: 1234 * 9 = 11106  
+Add 5: 11106 + 5 = 11111
+
+It works for base 2 also!
+General formulae for any base is...  
+(b-1)<sub>k=0</sub><sup>n</sup>𝚺(n-k)b<sup>k</sup> + (n+1)  
+So for base 2 we get  
+(1)<sub>k=0</sub><sup>n</sup>𝚺(n-k)2<sup>k</sup> + (n+1)  
+The multiplier is not needed in this case  
+<sub>k=0</sub><sup>n</sup>𝚺(n-k)2<sup>k</sup> + (n+1)
+
+Take n = 4 in base 2  
+<sub>k=0</sub><sup>n</sup>𝚺(2-k)2<sup>2</sup> + 5  
+* k<sub>0</sub> = (4-0)2<sup>0</sup> = 4*1 = 4
+* k<sub>1</sub> = (4-1)2<sup>1</sup> = 3*2 = 6
+* k<sub>2</sub> = (4-2)2<sup>2</sup> = 2*4 = 8
+* k<sub>3</sub> = (4-3)2<sup>3</sup> = 1*8 = 8
+* k<sub>4</sub> = (4-4)2<sup>3</sup> = 0*16 = 0
+
+Sum total: 4 + 6 + 8 + 8 = 26  
+Multiplier is 1 so nothing to do here    
+Add 5: 26 + 5 = 31  which is 32 - 1   
+This gives us 100000 - 1 = 11111 in binary
+
+However, this notation can be simplified  
+(b-1)<sub>k=0</sub><sup>n</sup>𝚺(n-k)b<sup>k</sup> + (n+1) = <sub>k=0</sub><sup>n</sup>𝚺 b<sup>k</sup>  
+Does the new notation work?  
+Let us try n=4 in base 2.  
+<sub>k=0</sub><sup>n</sup>𝚺 b<sup>k</sup> = 2<sup>0</sup> + 2<sup>1</sup> + 2<sup>2</sup> + 2<sup>3</sup> + 2<sup>4</sup> = 1 + 2 + 4 + 8 + 16 = 31  
+Base 10 is also simple = 1 + 10 + 100 + 1000 + 10000 = 11111
+
+So with this simpler notation we get the same result in both base 2 and base 10
+
+</details>
