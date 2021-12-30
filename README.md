@@ -6,6 +6,7 @@ Here are my attempts some exercise solutions in form of documentation and code.
 Some interesting algorithms that I have implemented so far are 
 * [Euclids Algorithm](/exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
 * [Log Calculator](/exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
+* [Return numebrs with only ones in any base recursively](/exercises/chapter_1/two/only_ones.py)
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
@@ -264,4 +265,5 @@ Base 10 is also simple = 1 + 10 + 100 + 1000 + 10000 = 11111
 
 So with this simpler notation we get the same result in both base 2 and base 10
 
+A recursive version of this algorithm can be found [here](/exercises/chapter_1/two/only_ones.py) 
 </details>
