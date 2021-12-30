@@ -1,38 +1,35 @@
-# calculate log2(16) - logb(x)
-# input
-from math import log
-
-b = 2
+import json
+import os.path
 
 
-def start(x):
-    y = 0
-    z = x >> 1
-    k = 1
+class LogCalculator:
+    def __init__(self, base: int):
+        self.base = base
+        self.y = 0
+        self.k = 1
 
-    return y, z, x, k
+    def algo(self, x: int, z: int) -> float:
+        if x == 1:
+            return int(self.y)
 
+        while x - z < 1:
+            z >>= 1
+            self.k += 1
 
-def algo(y, z, x, k):
-    if x == 1:
-        print(y)
-        exit(0)
+        x -= z
+        self.y += self.lookup_log(numerator=pow(base=2, exp=self.k))
+        return self.algo(x=x, z=x >> self.k)
 
-    while x - z < 1:
-        z >>= 1
-        k += 1
+    def lookup_log(self, numerator: int) -> float:
+        this_dir = os.path.dirname(os.path.realpath(__file__))
+        with open(f'{this_dir}/log_constants.json', 'r') as f:
+            table = json.load(f)
 
-    x -= z
-    z = x >> k
-    two_k = pow(base=2, exp=k)
-    y += log(two_k / (two_k - 1), b)
-    # y += get_log(int(two_k / (two_k - 1)))
-    return algo(y, z, x, k)
-
-
-def get_log(x):
-    y, z, x, k = start(x=x)
-    algo(y, z, x, k)
+        return table[str(self.base)][str(numerator)]
 
 
-get_log(x=2)
+if __name__ == "__main__":
+    base = 15
+    log_x = pow(base, exp=7)
+    lc = LogCalculator(base=base)
+    print(lc.algo(z=log_x >> 1, x=log_x))

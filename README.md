@@ -1,11 +1,11 @@
 # Art-of-Computer-Programming
-As I enjoy getting lost in the world of algorithms I have made a project out of working through the excellent work "The Art of Computer Programming" by Donald Knuth.  
+As I enjoy getting lost in the world of algorithms I have made a project out of working through the excellent work "The Art of Computer Programming" by Donald Knuth.
 
-Here are my attempts to the exercise solutions in form of documentation and code.  
+Here are my attempts some exercise solutions in form of documentation and code.
 
-There is not enough context to attempt all answers. For example questions about diagrams in the book.  
-
-I will not be adding the authors answers as this is to demonstrate my understanding of the questions posed.
+Some interesting algorithms that I have implemented so far are 
+* [Euclids Algorithm](/exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
+* [Log Calculator](/exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
