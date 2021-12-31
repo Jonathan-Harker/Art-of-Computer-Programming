@@ -3,10 +3,11 @@ As I enjoy getting lost in the world of algorithms I have made a project out of 
 
 Here are my attempts some exercise solutions in form of documentation and code.
 
-Some interesting algorithms that I have implemented so far are 
-* [Euclids Algorithm](/exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
-* [Log Calculator](/exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
-* [Return numebrs with only ones in any base recursively](/exercises/chapter_1/two/only_ones.py)
+Some algorithms that I have implemented so far are 
+* [Euclids Algorithm 1.1](/exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
+* [Log Calculator 1.2.2](/exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
+* [Return numebrs with only ones in any base recursively 1.2.3](/exercises/chapter_1/two/only_ones.py)
+* [Calculate Modulus 1.2.4](/exercises/chapter_1/two/calculate_modulus.py)
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
