@@ -1,5 +1,7 @@
 from typing import Union
 
+from utilities import floor
+
 
 def calculate_modulus(
         x: Union[float, int],
@@ -11,8 +13,3 @@ def calculate_modulus(
 
     modulus = x - (y * floor(x/y))
     return round(modulus, 2)
-
-
-def floor(n: float) -> int:
-    r = int(n)
-    return r if r == n or n >= 0 else r - 1

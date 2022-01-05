@@ -268,3 +268,39 @@ So with this simpler notation we get the same result in both base 2 and base 10
 
 A recursive version of this algorithm can be found [here](/exercises/chapter_1/two/only_ones.py) 
 </details>
+
+## 1.2.4 Factorials
+<details>
+<summary>Express 20! as a product of its prime factors</summary>
+
+20! = <sub>k>0</sub>𝚺 floor(20 / p<sup>k</sup>) for each prime factor  
+Primes up to 20 = 2, 3, 5, 7, 11, 13, 17, 19  
+As the 11, 13, 17 and 19 result in 1 by this sequence then we don't need to do any futher calculations for these numbers.  
+We simply need to multiply the result by 11 * 13 * 17 * 19
+* 20! as 2: <sub>k>0</sub>𝚺 floor(20 / 2<sup>k</sup>)
+  * floor(20/2<sup>1</sup>) + floor(20/2<sup>2</sup>) + floor(20/2<sup>3</sup>) + floor(20/2<sup>4</sup>)
+  * 10 + 5 + 2 + 1
+  * 2<sup>18</sup>
+* 20! as 3: <sub>k>0</sub>𝚺 floor(20 / 3<sup>k</sup>)
+  * floor(20/3<sup>1</sup>) + floor(20/3<sup>2</sup>)
+  * 6 + 2
+  * 3<sup>8</sup>
+* 20! as 5: <sub>k>0</sub>𝚺 floor(20 / 5<sup>k</sup>)
+  * floor(20/5<sup>1</sup>)
+  * 4
+  * 5<sup>4</sup>
+* 20! as 7: <sub>k>0</sub>𝚺 floor(20 / 7<sup>k</sup>)
+  * floor(20/7<sup>1</sup>)
+  * 2
+  * 7<sup>2</sup>  
+
+#### 20! = 2<sup>18</sup> * 3<sup>8</sup> * 5<sup>4</sup> * 7<sup>2</sup> * 11 * 13 * 17 * 19
+```python
+import math
+
+2**18 * 3**8 * 5**4 * 7**2 * 11 * 13 * 17 * 19 == math.factorial(20)
+```
+```shell
+Out[3]: True
+```
+</details>
