@@ -9,18 +9,18 @@ class Factorial:
 
     def calculate_factorial(self):
         total = 1
-        prime_products = []
+        prime_products = {}
         primes = self.get_primes()
 
         for prime in primes:
             power = self.sum_prime_factor(p=prime)
             total *= prime ** power
-            prime_products.append(f"{prime} to the power of {power}")
+            prime_products[prime] = power
 
         return prime_products, total
 
     def get_primes(self):
-        return [p for p in self.prime_numbers() if self.n > p]
+        return [p for p in self.prime_numbers() if self.n >= p]
 
     def sum_prime_factor(self, p: int, k=1, total=0) -> int:
         if self.n < p ** k:

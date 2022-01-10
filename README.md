@@ -269,7 +269,7 @@ So with this simpler notation we get the same result in both base 2 and base 10
 A recursive version of this algorithm can be found [here](/exercises/chapter_1/two/only_ones.py) 
 </details>
 
-## 1.2.4 Factorials
+## 1.2.5 Factorials
 <details>
 <summary>Express 20! as a product of its prime factors</summary>
 
@@ -303,4 +303,20 @@ import math
 ```shell
 Out[3]: True
 ```
+</details>
+
+## 1.2.6 Binomial Coefficients
+<details>
+<summary>How many bridge hands are possible</summary>
+
+This is calculated using the formulae n! / (k! * (n-k)!)
+
+We can take each factorial expression n, k and n-k and calculate it as a product of prime factors.  
+Once that has been done each exponential expression can either be multiplied or divided out.   
+The final result can be seen [here](/exercises/chapter_1/two/binomial_coefficients.py)
+```python
+{2: 4, 5: 2, 7: 2, 17: 1, 23: 1, 41: 1, 43: 1, 47: 1}
+```
+2<sup>4</sup> * 5<sup>2</sup> * 7<sup>2</sup> * 17 * 23 * 41 * 43 * 47  
+Resulting in **635 013 559 600**
 </details>
