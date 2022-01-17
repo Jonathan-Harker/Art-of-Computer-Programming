@@ -6,8 +6,10 @@ Here are my attempts some exercise solutions in form of documentation and code.
 Some algorithms that I have implemented so far are 
 * [Euclids Algorithm 1.1](/exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
 * [Log Calculator 1.2.2](/exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
-* [Return numebrs with only ones in any base recursively 1.2.3](/exercises/chapter_1/two/only_ones.py)
+* [Return numbers with only ones in any base recursively 1.2.3](/exercises/chapter_1/two/only_ones.py)
 * [Calculate Modulus 1.2.4](/exercises/chapter_1/two/calculate_modulus.py)
+* [Get the bionomial coefficient 1.2.6](/exercises/chapter_1/two/binomial_coefficients.py)
+* [Get h - the harmonic number 1.2.7](exercises/chapter_1/two/harmonic_numbers.py)
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
