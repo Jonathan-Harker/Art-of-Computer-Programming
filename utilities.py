@@ -3,14 +3,14 @@ def floor(n: float) -> int:
     return r if r == n or n >= 0 else r - 1
 
 
-def print_primes_from_2(limit=500):
+def get_primes_from_2(limit=500) -> list:
     primes = [2]
 
     for possible_prime in range(3, limit):
         if is_prime(possible_prime):
             primes.append(possible_prime)
 
-    print(primes)
+    return primes
 
 
 def is_prime(possible_prime):

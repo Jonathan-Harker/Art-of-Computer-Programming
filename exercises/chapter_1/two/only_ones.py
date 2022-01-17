@@ -1,9 +1,9 @@
 class OnlyOnes:
-    def __init__(self, n: int, base: int) -> int:
+    def __init__(self, n: int, base: int):
         self.n = n
         self.base = base
 
-    def make_only_ones(self, total=0, i=0):
+    def make_only_ones(self, total=0, i=0) -> int:
         if i > self.n:
             return total
 
