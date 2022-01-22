@@ -322,3 +322,77 @@ The final result can be seen [here](/exercises/chapter_1/two/binomial_coefficien
 2<sup>4</sup> * 5<sup>2</sup> * 7<sup>2</sup> * 17 * 23 * 41 * 43 * 47  
 Resulting in **635 013 559 600**
 </details>
+
+## 1.2.8 Fibonacci Numbers
+<details>
+<summary>Counters Game - best move when n=1000</summary>
+
+Rules - for 2 players
+* There is a pile containing n counters. 
+* The first player removes any number of counters, leaving at least one.  
+* Each player must take at least one counter.
+* Each player can take a maximum of 2 times the counters that the previous player took.
+
+Let us imagine that there are 11 counters to start with.  
+
+We shall assume that neither player wants to face certain loss.  
+Therefore, their options shall be restricted to < CEIL(n/3)  
+
+A summary of such a game make look like this:  
+
+RC = Remaining Counters
+
+| Turn | Player A | Options | RC  | Player B | Options | RC  |
+|------|----------|---------|-----|----------|---------|-----|
+| 0    | -        |         |     | -        |         | 11  |
+| 1    | 3        | 1 2 3   | 8   | 1        | 1 2     | 7   |
+| 2    | 2        | 1 2     | 5   | 1        | -       | 4   |
+| 3    | 1        | -       | 3   | 1        | -       | 2   |
+| 4    | 2        | -       | 0   |          |         |     |
+
+This worked out pretty well for Player A. Only in their first turn did player B have any choice!  
+
+Player B could have selected 2 counters.   
+However, that would have left player A able to take a single counter from the 6 remaining, still leaving 5 counters for player B - ensuring victory!  
+
+What if there are 15 counters? How many counters should Player A take?  
+What are the max counters? max = CEIL(n/3) - 1 = 4.  
+* This makes sense because if Player A took 5 counters player B would simply take 10 thus winning the game.  
+* If Player A took 4 counters this would leave 11, which as we can see from our previous table allows player B certain victory.  
+* What if Player A tries to always leave a fibonacci number of counters for his opponent?  
+* At no time must he leave his opponent in a position to leave a fibonacci number of counters for him.  
+* Options for Player A will be restricted with these rules in mind  
+
+| Turn | Player A | Options | RC  | Player B | Options | RC  |
+|------|----------|---------|-----|----------|---------|-----|
+| 0    | -        |         |     | -        |         | 15  |
+| 1    | 2        | -       | 13  | 4        | 1 2 3 4 | 9   |
+| 2    | 1        | -       | 8   | 1        | 1 2     | 7   |
+| 3    | 2        | -       | 5   | 1        | -       | 4   |
+| 4    | 1        | -       | 3   | 1        | -       | 2   |
+| 5    | 2        | -       | 0   |          |         |     |
+
+Player A wins again! We note on turn 2 Player B could have chosen 2 counters.  
+Player A Would then have taken 1 counter on turn 3 leaving the game in the same state.  
+What about turn 1? Player B could have chosen 1, 2 or 3 instead. 
+* Player B chooses 3, RC=10, Player A chooses 2. No difference.
+* Player B chooses 2, RC=11, Player A chooses 3. No difference.
+* Player B chooses 1, RC=12
+  * Player A much choose 1. 
+  * Choosing 2 would allow his opponent to leave him with a fibonacci number of counters.
+  * RC=11. Now Player B can choose 1 or 2.  
+  * If Player B leaves 10 counters Player A will choose 2 and leave 8.  
+  * If Player B leaves 9 counters Player A will choose 1 and leave 8.
+  * Either way certain victory follows for Player A.
+
+What if there are 1000 counters. What move should Player A make?  
+* max = CEIL(n/3) - 1
+* n/3 = 333.33333...
+* CEIL(333.333) = 334
+* max = 333  
+
+The most counters' player A can take is 333.  
+* Player A must leave at least 1000 - 333 counters = 667
+* The first Fibonacci number after 667 is 987.
+* Player A must take **13 counters** for his first move
+</details>
