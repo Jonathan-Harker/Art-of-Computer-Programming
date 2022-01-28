@@ -19,3 +19,11 @@ def is_prime(possible_prime):
         if possible_prime % i == 0:
             is_prime_number = False
     return is_prime_number
+
+def get_sorted_list_neighbours(l: list, i: int) -> tuple:
+    idx = 1
+    for idx, v in enumerate(l):
+        if i < v:
+            break
+
+    return l[idx - 1], l[idx]

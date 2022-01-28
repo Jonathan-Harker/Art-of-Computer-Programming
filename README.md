@@ -10,6 +10,7 @@ Some algorithms that I have implemented so far are
 * [Calculate Modulus 1.2.4](/exercises/chapter_1/two/calculate_modulus.py)
 * [Get the bionomial coefficient 1.2.6](/exercises/chapter_1/two/binomial_coefficients.py)
 * [Get h - the harmonic number 1.2.7](exercises/chapter_1/two/harmonic_numbers.py)
+* [A game you can't win - play on the command line if you do not believe me!](applications/counters_game.py) - Based on a practical application of Fibonacci numbers
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
