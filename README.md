@@ -397,3 +397,66 @@ The most counters' player A can take is 333.
 * The first Fibonacci number after 667 is 987.
 * Player A must take **13 counters** for his first move
 </details>
+
+## 1.3.1 MIX 
+<details>
+<summary>What is the result of the "number one" program</summary>
+
+| INSTRUCTION  | Description                                                                          | Register A | Register X | Register I1 | Results Explanation                                                                      | Instruction # | Execution Time |
+|--------------|--------------------------------------------------------------------------------------|------------|------------|-------------|------------------------------------------------------------------------------------------|---------------|----------------|
+| STZ 1        | Store the Value of 0 at location 1                                                   | +00000     | +00000     | +00         | The next instruction is rendered NOP                                                     | 33            | 2              |
+| ENNX 1       | Enter Negative Number Value at X                                                     | +00000     |            |             | No operation as the first line set it to zero                                            | 55 (NOP = 0)  | 1              |
+| STX 1(0:1)   | Store X at Memory location 1                                                         | +00000     |            |             | No change as X and mem 1 already equal                                                   | 31            | 2              |
+| SLAX 1       | Shift Left Including A & X                                                           | +00000     |            |             | No change as all zeros get shifted by one                                                | 06            | 2              |
+| ENNA 1       | Enter Negative Value into A                                                          | -00001     |            |             | Register A is loaded with -00001                                                         | 48            | 1              |
+| INCX 1       | Increases Register X by the Value of 1                                               | -00001     | +00001     |             | Register X is loaded with +00001                                                         | 55            | 1              | 
+| ENT1 1       | Enter Value into the register                                                        |            |            | +01         | Register I1 is set to +01                                                                |               |                |
+| SRC 1        | Shift Right Circularly by given amount                                               | -10000     | +10000     | +01         | Reg A is set to -10000 and Reg X is set to +10000                                        |               |                |
+| ADD 1        | Add The Memory location of 1 to Register A                                           | -10000     | +10000     | +01         | The memory location of 1 is 0 so A remains unchanged                                     |               |                |
+| DEC1 -1      | Decrease Register X by the value of -1                                               |            |            | +02         | A decrease of minus 1 is an increase of 1 so rI1 is set to +02                           |               |                |
+| STZ 1        | Store the Value of 0 at location 1                                                   |            |            |             | Same operation as the first instruction. No change.                                      |               |                |
+| CMPA 1       | Register A is compared to the memory                                                 |            |            |             |                                                                                          |               |                |
+| MOVE -1,1(1) | Copy data from specified memory location to location set in rI1 - then increment rI1 |            |            | +03         | This copies the data from memory add 1 to mem add 2                                      |               |                |
+| NUM 1        | Convert the contents of Register A to Numeric values                                 |            |            |             | Convert the contents of Register A to numeric and stores in Register A                   |               |                |
+| CHAR 1       | Convert the contents of Register A to a 10 byte code, thus using Registers A & X     |            |            |             | Contents of Register A is turned into a 10 byte decimal number that fills both rA and rX |               |                |
+
+Explanation of MOVE in this case we had the instruction
+* MOVE -1,1(1)
+* MOVE x,y(z)
+* x is the source memory address. The contents are copied to the memory address held in rI1
+* y is the index register and therefore must be between 1 and 6. 
+  * The contents of the Index register are added to the source memory address
+  * In our example y=1 which means the contents or rI1 are added to the initial memory location of -1
+  * As rI1 held the address of 2 the source memory address is modified to memory location 1.
+  * Therefore, the contents of 1 (0/NOP) is copied to 2
+* z is the number of operations or copies that are carried out
+
+<details>
+<summary>Some working out</summary>
+
+STZ 1         
+ENNX 1       
+STX 1(0:1)   
+SLAX 1       
+ENNA 1       
+INCX 1        
+ENT1 1       
+SRC 1        
+ADD 1        
+DEC1 -1      
+STZ 1        
+CMPA 1       
+MOVE -1,1(1) 
+NUM 1        
+CHAR 1
+
+989855744 = 64 to the power of 4 * 59
+  9961472 = 64 to the power of 3 * 38
+   192512 = 64 to the power of 2 * 47
+      256 = 64 * 4
+       16 = 16
+
+Added up = 1000010000
+</details>
+</details>
+
