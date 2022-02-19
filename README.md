@@ -422,11 +422,13 @@ Some of the more complex functions are explained here in detail
 * MOVE -1,1(1)
 * MOVE x,y(z)
 * x is the source memory address. The contents are copied to the memory address held in rI1
+  * This is hard set to rI1 and is not changed by any of the variables x, y, z
 * y is the index register and therefore must be between 1 and 6. 
   * The contents of the Index register are added to the source memory address
   * In our example y=1 which means the contents or rI1 are added to the initial memory location of -1
   * As rI1 held the address of 2 the source memory address is modified to memory location 1.
   * Therefore, the contents of 1 (0/NOP) is copied to 2
+  * rI1 is then incremented by 1
 * z is the number of operations or copies that are carried out
 </details>
 
@@ -478,40 +480,43 @@ Some of the more complex functions are explained here in detail
 
 <summary>What is the result of the "number one" program</summary>
 
-| INSTRUCTION  | Description                                                                          | Register A      | Register X      | Register I1 | Other            | Results Explanation                                                                      | Instruction # | Execution Time |
-|--------------|--------------------------------------------------------------------------------------|-----------------|-----------------|-------------|------------------|------------------------------------------------------------------------------------------|---------------|----------------|
-| STZ 1        | Store the Value of 0 at location 1                                                   | +00000          | +00000          | +00         | Mem1: +00000     | The next instruction is rendered NOP                                                     | 33            | 2              |
-| ENNX 1       | Enter Negative Number Value at X                                                     |                 |                 |             |                  | No operation as the first line set it to zero by the previous command                    | 55 (NOP = 0)  | 1              |
-| STX 1(0:1)   | Store X at Memory location 1                                                         |                 |                 |             |                  | No change as X and mem 1 already equal                                                   | 31            | 2              |
-| SLAX 1       | Shift Left Including A & X                                                           |                 |                 |             |                  | No change as all zeros get shifted by one                                                | 06            | 2              |
-| ENNA 1       | Enter Negative Value into A                                                          | -00001          |                 |             |                  | Register A is loaded with -00001                                                         | 48            | 1              |
-| INCX 1       | Increases Register X by the Value of 1                                               |                 | +00001          |             |                  | Register X is loaded with +00001                                                         | 55            | 1              | 
-| ENT1 1       | Enter Value into the register                                                        |                 |                 | +01         |                  | Register I1 is set to +01                                                                | 49            | 1              |
-| SRC 1        | Shift Right Circularly by given amount                                               | -10000          | +10000          |             |                  | Reg A is set to -10000 and Reg X is set to +10000                                        | 06            | 2              |
-| ADD 1        | Add The Memory location of 1 to Register A                                           |                 |                 |             |                  | The memory location of 1 is 0 so A remains unchanged                                     | 01            | 2              |
-| DEC1 -1      | Decrease Register X by the value of -1                                               |                 |                 | +02         |                  | A decrease of minus 1 is an increase of 1 so rI1 is set to +02                           | 49            | 1              |
-| STZ 1        | Store the Value of 0 at location 1                                                   |                 |                 |             |                  | Same operation as the first instruction. No change.                                      | 33            | 2              |
-| CMPA 1       | Register A is compared to the memory                                                 |                 |                 |             | Comparison: LESS | Register A contains -10000 Memory 1 contains 00000                                       | 56            | 2              |
-| MOVE -1,1(1) | Copy data from specified memory location to location set in rI1 - then increment rI1 |                 |                 | +03         | Mem2: +00000     | This copies the data from memory add 1 to mem add 2                                      | 07            | 3              |
-| NUM 1        | Convert the contents of Register A to Numeric values                                 | -59 38 47 4 16  |                 |             |                  | Convert the contents of Register A to numeric and stores in Register A                   | 05            | 10             |
-| CHAR 1       | Convert the contents of Register A to a 10 byte code, thus using Registers A & X     | -30 30 30 30 30 | +31 30 30 30 30 |             |                  | Contents of Register A is turned into a 10 byte decimal number that fills both rA and rX | 05            | 10             |
+| INSTRUCTION  | Description                                                                          | Register A      | Register X      | Register I1 | Other                 | Results Explanation                                                                                                                        | Instruction # | Execution Time |
+|--------------|--------------------------------------------------------------------------------------|-----------------|-----------------|-------------|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---------------|----------------|
+| ORIG 1       | Store the instructions from set location onwards                                     |                 |                 |             |                       | All instructions start from memory location 1                                                                                              |               |                |
+| STZ 1        | Store the Value of 0 at location 1                                                   | +00000          | +00000          | +00         | Mem1: +00000          |                                                                                                                                            | 33            | 2              |
+| ENNX 1       | Enter Negative Number Value at X                                                     |                 | -00001          |             |                       | -1 gets stored in rX                                                                                                                       | 55            | 1              |
+| STX 1(0:1)   | Store the rhs digits and +/- sign X at Memory location 1 lhs                         |                 |                 |             | Mem1: -100000         |                                                                                                                                            | 31            | 2              |
+| SLAX 1       | Shift Left Including A & X                                                           |                 | -00010          |             |                       | No change to A as all zeros, Register X gets shifted                                                                                       | 06            | 2              |
+| ENNA 1       | Enter Negative Value into A                                                          | -00001          |                 |             |                       | Register A is loaded with -00001                                                                                                           | 48            | 1              |
+| INCX 1       | Increases Register X by the Value of 1                                               |                 | -0 0 0 0 63     |             |                       | Register X is increased by 1 causing -10(-64 in base 10) to be increased by 1. The value of -63 is now stored.                             | 55            | 1              | 
+| ENT1 1       | Enter Value into the register                                                        |                 |                 | +01         |                       | Register I1 is set to +01                                                                                                                  | 49            | 1              |
+| SRC 1        | Shift Right Circularly by given amount                                               | -63 0 0 0 0     | -1 0 0 0 0      |             |                       | Reg A is set to -10000 and Reg X is set to +10000                                                                                          | 06            | 2              |
+| ADD 1        | Add The Memory location of 1 to Register A                                           | -0 0 0 0 0      |                 |             | Overflow is set to on | -63 - 1 would require 7 bits to store as the number would now be -1 0 0 0 0 0 0. This causes an overflow with remainder 0.                 | 01            | 2              |
+| DEC1 -1      | Decrease Register X by the value of -1                                               |                 |                 | +02         |                       | A decrease of minus 1 is an increase of 1 so rI1 is set to +02                                                                             | 49            | 1              |
+| STZ 1        | Store the Value of 0 at location 1                                                   |                 |                 |             | Mem1: +00000          | Mem 1 gets set to zero                                                                                                                     | 33            | 2              |
+| CMPA 1       | Register A is compared to the memory                                                 |                 |                 |             | Comparison: EQUAL     | Register A contains +00000 and Memory 1 contains 00000                                                                                     | 56            | 2              |
+| MOVE -1,1(1) | Copy data from specified memory location to location set in rI1 - then increment rI1 |                 |                 | +03         | Mem2: +00000          | This copies the data from memory address 1 to mem address 2. 3 is stored in rI1 and -1 is the parameter so the target memory address is 2. | 07            | 3              |
+| NUM 1        | Convert the contents of Register A and X to Numeric values to be stored in A         | -00 00 02 28 16 |                 |             |                       | +00000 10000 is converted to a number. 10,000 -> encoded num.                                                                              | 05            | 10             |
+| CHAR 1       | Convert the contents of Register A to a 10 byte code, thus using Registers A & X     | -30 30 30 30 30 | -31 30 30 30 30 |             |                       | Contents of Register A is turned into a 10 byte decimal number that fills both rA and rX                                                   | 05            | 10             |
 
 End state:
 * Register A: -30 30 30 30 30
-* Register X: +31 30 30 30 30
+* Register X: -31 30 30 30 30
 * Register I1: +03
 * Mem1: +00000
 * Mem2: +00000
-* Comparison: LESS
+* Comparison: EQUAL
+* Overflow is set to ON
 
-According to the answer in The Art of Computer Programming my solution has some discrepancies:
-* The sign on rI1 should be - not +
-* The overflow toggle should be on
-* The comparison indicator should be set to EQUAL not LESS
-  * This is because the ADD 1 instruction should cause an overflow
+If the starting cell is 0 then there will be some discrepancies:
+* The sign on rI1 will be - not +
+* The overflow toggle will be set to off
+* The comparison indicator will be set to EQUAL not LESS
+  * This is because the ADD 1 instruction will add zero as the contents of memory 1 will be zero.
 <details>
 <summary>Only the program</summary>
 
+* ORIG 1
 * STZ 1         
 * ENNX 1       
 * STX 1(0:1)   
@@ -562,4 +567,29 @@ Explanation of the program
 | JMP 3004    | rJ <-- +31 57          | Jump to cell 3004, Register J stored the next location if it had not been interrupted, 2041 | 2040         |
 | HLT         |                        | End of routine                                                                              | 3004         |
 
+</details>
+
+<details>
+<summary>Compute x<sup>13</sup></summary>
+
+Result is held in register A  
+x is held in mem 2000  
+For example x = 4
+
+Setup
+* INCA 4
+* STA 2000
+* SUB 2000
+
+ALGO
+* ADD 2000
+* INC1 50
+* MOVE 10(1)
+* DEC1 41
+* MOVE 8(22) *5 to the power of (2 plux x/2) where x is in ()
+* MUL 2000
+* SLAX 5
+
+END
+* HLT
 </details>
