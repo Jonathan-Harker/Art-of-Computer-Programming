@@ -477,8 +477,57 @@ Some of the more complex functions are explained here in detail
 </details>
 
 <details>
+<summary>Q2: Store 99 999 999</summary>
 
-<summary>What is the result of the "number one" program</summary>
+Each byte has a maximum value of 64.  
+The max value that can be stored in each of the 5 cells is 63 * the following powers of 64: 64<sup>4</sup> 64<sup>3</sup> 64<sup>2</sup> 64<sup>1</sup> 64<sup>0</sup>  
+log<sub>2</sub>99 999 999 = ~26.58  
+* 64 = 2<sup>6</sup>
+* 26.58 / 6 = 4.43
+* Now we know we need 5 bytes to store this number
+  * 99 999 999 / 64<sup>4</sup>(16777216) = ~5.96
+  * The first byte is 5
+  * Remainder = 99999999 - (5 * 64<sup>4</sup>) = 16 113 919
+  * 16 113 919 / 64<sup>3</sup>(262144) = ~61.47
+  * The second byte is 61
+  * Remainder = 16113919 - (61 * 64<sup>3</sup>) = 123135
+  * 123135 / 64<sup>2</sup>(4096) = ~30.06
+  * The third byte is 30
+  * Remainder = 123135 - 30 * 64<sup>2</sup> = 255
+  * 255 / 64 = ~3.98
+  * The fourth byte is 3
+  * Remainder = 255 - (3*64) = 63
+  * The firth byte is 63
+* Therefore, 99 999 999 can be represented by +5 61 30 3 64
+
+</details>
+
+<details>
+<summary>Q5: What does the instruction -80 3 5 4 represent?</summary>
+
+* -80 is memory location -80
+* 3 tells us to add the memory location (in this case of -80) to the value store in register I3
+* 5 says to use all 5 fields or use a particular operation
+* 4 is the operation code in this case DIV or FDIV. As DIV is 0:5 and the previous instruction was 5 the operation we need is DIV  
+
+**The resulting translated operation will be DIV -80,3**
+</details>
+
+<details>
+<summary>Q6: What is the result of the following "load" instructions</summary>
+
+Memory 3000 contains +5 1 200 15  
+
+Instructions:
+* LDAN 3000 - load negative A - A is set to -5 1 200 15 
+* LD2N 3000(3:4) - load negative rI2 - register I2 is set to -200
+* LDX 3000(1:3) - value is stored in rX - the last fields of register X is set to 5 1 ?  
+* LD6 3000 - value is stored in rI6 - register I6 is undefined - as we are trying to fit 5 cells into 2
+* LDXN 3000(0:0) - load negative X - register X sign is set to negative
+</details>
+
+<details>
+<summary>Q18: What is the result of the "number one" program</summary>
 
 | INSTRUCTION  | Description                                                                          | Register A      | Register X      | Register I1 | Other                 | Results Explanation                                                                                                                        | Instruction # | Execution Time |
 |--------------|--------------------------------------------------------------------------------------|-----------------|-----------------|-------------|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---------------|----------------|
@@ -536,9 +585,19 @@ If the starting cell is 0 then there will be some discrepancies:
 </details>
 </details>
 
+<details>
+<summary>Q19: How long does the "number one" program take to execute</summary>
+
+See table in previous section.  
+
+It takes 42 units of time.  
+
+Perhaps the only unknown timing is the move function as this takes 1 + 2 moves.  
+As we are only doing 1 move in this case it takes 3 units of time in total
+</details>
 
 <details>
-<summary>Store I4 into J</summary>
+<summary>Q21: Store I4 into J</summary>
 
 As long as the number is greater than 0 and less than 3001.  
 Example n=2041
@@ -570,26 +629,26 @@ Explanation of the program
 </details>
 
 <details>
-<summary>Compute x<sup>13</sup></summary>
+<summary>Q22: Compute x<sup>13</sup></summary>
 
 Result is held in register A  
 x is held in mem 2000  
 For example x = 4
 
 Setup
-* INCA 4
-* STA 2000
-* SUB 2000
+* INCA 4 - Increase Register A by x (in this case 4)
+* STA 2000 - Store the number 4 in memory cell 2000
+* SUB 2000 - Set Register A back to 0
 
-ALGO
-* ADD 2000
-* INC1 50
-* MOVE 10(1)
-* DEC1 41
-* MOVE 8(22) *5 to the power of (2 plux x/2) where x is in ()
-* MUL 2000
-* SLAX 5
+Algorithm
+* ADD 2000 - Store Memory 2000 in A 
+* INC1 32 - Increase r1 by 32 - to set the halt instruction
+* MOVE 10(1) - Moves the HALT instruction in cell 10 to the location set in r1 - 32 
+* DEC1 23 - sets r1 to 9
+* MOVE 8(22) - Repeats instructions 8 and 9 - to multiply & shift left 11 times
+* MUL 2000 - multiply the contents of Register A by the contents of cell 2000
+* SLAX 5 - Move the contents of Register A into Register X, assuming that the number can be contained in a single word
 
-END
+End
 * HLT
 </details>
