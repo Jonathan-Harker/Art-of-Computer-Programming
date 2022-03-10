@@ -527,6 +527,45 @@ Instructions:
 </details>
 
 <details>
+<summary>Q8: What are the results after the DIV 1000 instruction</summary>
+
+rA before: -0  
+rX before: -1234 0 3 1  
+cell 1000: -000 2 0  
+Instruction DIV 1000  
+-1234031 / -20 we can negate the negative signs = 1234031 / 20 = 61701.55  
+rA = +0 617 0 1  
+Get remainder: 1234031 - (61701 * 20) = 1234031 - 1234020 = 31 - 20 = 11  
+rX = -00011
+
+</details>
+
+<details>
+<summary>Q12: Multiply rI3 by 2 and store in rI3</summary>
+
+The question asks for this to be done in a single instruction.    
+The command INC3 increases rI3 by a given amount.  
+We also know that adding a comma to an instruction, using the "I" field, adds the contents of the "I" registers.  
+Therefore, we can simply add the contents of rI3 back to itself with this command. This has the effect of mutliplying by 2.
+
+**INC3 0,3**
+
+</details>
+
+<details>
+<summary>Q13: Jump Conditions</summary>
+
+JOV: If overflow is on, turn it off and jump  
+JNOV: If overflow is off, jump. If it is on switch it off  
+
+If location 1000 contains the instruction `JOV 1001` The overflow toggle will be set to off and the next instruction exectued will be 1001 as normal
+What are the effects of changing this to `JNOV 1001`, `JOV 1000`, `JNOV 1000`  
+* JNOV 1001: The overflow is turned off if set to on - the next instruction is 1001 anyway
+* JOV 1000: If the overflow is on it is turned off. We then jump to 1000 where the overflow is now off and so the program resumes as normal
+* JNOV 1000: If the overflow is off we jump back to 1000. This can cause an infinite loop
+</details>
+
+<details>
 <summary>Q18: What is the result of the "number one" program</summary>
 
 | INSTRUCTION  | Description                                                                          | Register A      | Register X      | Register I1 | Other                 | Results Explanation                                                                                                                        | Instruction # | Execution Time |
