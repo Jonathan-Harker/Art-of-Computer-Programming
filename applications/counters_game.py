@@ -42,7 +42,11 @@ class CountersGame:
         return self.computer_move(c, pm, t)
 
     def player_move(self, pm: int):
-        p_move = int(input("Your move: "))
+        try:
+            p_move = int(input("Your move: "))
+        except ValueError:
+            return self.player_move(pm=pm)
+
         if p_move > pm * 2 or p_move < 1:
             self.player_move(pm=pm)
         self.n -= p_move

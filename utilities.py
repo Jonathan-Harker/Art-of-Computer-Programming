@@ -20,6 +20,7 @@ def is_prime(possible_prime):
             is_prime_number = False
     return is_prime_number
 
+
 def get_sorted_list_neighbours(l: list, i: int) -> tuple:
     idx = 1
     for idx, v in enumerate(l):
@@ -27,3 +28,7 @@ def get_sorted_list_neighbours(l: list, i: int) -> tuple:
             break
 
     return l[idx - 1], l[idx]
+
+
+if __name__ == "__main__":
+    print(get_primes_from_2(50000))
