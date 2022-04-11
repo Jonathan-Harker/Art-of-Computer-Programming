@@ -691,3 +691,110 @@ Algorithm
 End
 * HLT
 </details>
+
+## 1.3.2 MIXAL
+<details>
+<summary>Sorting Algorithm</summary>
+
+* This algorithm is able to find the greatest number and send it to the end 
+* Once it has found the greatest number it then finds the next greatest number 
+* A decreasing loop discounts items already sorted
+* The following table shows the algorithm
+* The table after shows the steps required to sort 3 numbers
+
+| LOC     | OP   | ADDRESS | REMARKS                                                                                                                                                |
+|---------|------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| START   | IN   | X+1(0)  | Reads 100 words from tape 0 and put into memory blocks X+1 through to X+100                                                                            |
+|         | JBUS | *(0)    | Jump if unit 0 is not ready.This is effectively a pause until all contents are loaded in                                                               |
+|         | ENT1 | 100     | Store 100 into rI1                                                                                                                                     |
+| 1H      | JMP  | MAXIMUM | Jump to MAXIMUM, Store the next address into rJ                                                                                                        |
+|         | LDX  | X,1     | Load the value of Location X + rI1 into rX                                                                                                             |  
+|         | STA  | X,1     | Store the value of A into location X + ri1                                                                                                             |
+|         | STX  | X,2     | Store the value of X into location X + rI2                                                                                                             |
+|         | DEC1 | 1       | Decrease rI1 by 1                                                                                                                                      |
+|         | J1P  | 1B      | Jump to 1H if rI1 is positive, Store the next address into rJ                                                                                          |
+|         | OUT  | X+1(1)  | Transfer data from memory to output device 1                                                                                                           |
+|         | HLT  |         | Ends the routine                                                                                                                                       |
+|         | END  | START   |                                                                                                                                                        |
+| ------  | ---- | ------  | -------------------------------------------------------------------                                                                                    |
+| X       | EQU  | 1000    | Sets X to 1000                                                                                                                                         |
+|         | ORIG | 3000    | All instructions take place from memory location 3000                                                                                                  |
+| MAXIMUM | STJ  | EXIT    | Store the contents of register J into memory location specified by the EXIT keyword. When EXIT is reached The program will resume in the main routine. |
+| INIT    | ENT3 | 0,1     | Enter the contents of rI1 into rI3                                                                                                                     |
+|         | JMP  | CHANGEM | Jump to CHANGEM, storing the next instruction into rJ                                                                                                  |
+| LOOP    | CMPA | X,3     | Compares the value in A to mem X + rI3 and sets the comparison indicator                                                                               |
+|         | JGE  | *+3     | Jump 3 locations ahead of comparison is on greater or equal                                                                                            |
+| CHANGEM | ENT2 | 0,3     | Enter the contents of rI3 into rI2                                                                                                                     |
+|         | LDA  | X,3     | Load the value of Location X + rI3 into rA                                                                                                             |
+|         | DEC3 | 1       | Decrease the value of rI3 by 1                                                                                                                         |
+|         | J3P  | LOOP    | Jumps back to the LOOP keyword if rI3 is positive                                                                                                      |
+| EXIT    | JMP  | *       | Resumes in the main routine                                                                                                                            |
+
+Let us say this function sorted 3 numbers instead. How would it sort [15, 11, 13]? 
+
+| LOC     | OP   | ADDRESS | MEM LOC | rJ  | rI1 | rI2 | rI3 | rA  | rX  | 1001 | 1002 | 1003 | REMARKS                                           |
+|---------|------|---------|---------|-----|-----|-----|-----|-----|-----|------|------|------|---------------------------------------------------|
+| START   | IN   | 1001    | 0       |     |     |     |     |     |     | 15   | 11   | 13   | Puts the values of 15, 13 and 11 into 1001 - 1003 |
+|         | JBUS | *(0)    | 1       |     |     |     |     |     |     |      |      |      | Waits whilst data loads                           |
+|         | ENT1 | 3       | 2       |     | 3   |     |     |     |     |      |      |      | Enters 3 into rI1                                 | 
+| 1H      | JMP  | MAXIMUM | 3       | 4   |     |     |     |     |     |      |      |      | Stores 4 into rJ and jumps                        |
+| MAXIMUM | STJ  | EXIT    | 3000    |     |     |     |     |     |     |      |      |      | Stores address of 4 into address field of EXIT    |
+| INIT    | ENT3 | 0,1     | 3001    |     |     |     | 3   |     |     |      |      |      | Enters 3 into rI3                                 |
+|         | JMP  | CHANGEM | 3002    |     |     |     |     |     |     |      |      |      | Jump to ChangM                                    |
+| CHANGEM | ENT2 | 0,3     | 3005    |     |     | 3   |     |     |     |      |      |      | Enters 3 into rI2                                 |
+|         | LDA  | X,3     | 3006    |     |     |     |     | 13  |     |      |      |      | Stores 13 into rA                                 |
+|         | DEC3 | 1       | 3007    |     |     |     | 2   |     |     |      |      |      | Change rI3 to 2                                   |
+|         | J3P  | LOOP    | 3008    |     |     |     |     |     |     |      |      |      | Jump to 3003                                      |
+| LOOP    | CMPA | X,3     | 3003    |     |     |     |     |     |     |      |      |      | rA=13. 1002=11. COMP = GT                         |
+|         | JGE  | *+3     | 3004    |     |     |     |     |     |     |      |      |      | GT so Jump to 3007                                |
+|         | DEC3 | 1       | 3007    |     |     |     | 1   |     |     |      |      |      | Change rI3 to 1                                   |
+|         | J3P  | LOOP    | 3008    |     |     |     |     |     |     |      |      |      | Jump to 3003                                      |
+| LOOP    | CMPA | X,3     | 3003    |     |     |     |     |     |     |      |      |      | rA=13. 1001=15. COMP = LT                         |
+|         | JGE  | *+3     | 3004    |     |     |     |     |     |     |      |      |      | LT so no Jump                                     |
+| CHANGEM | ENT2 | 0,3     | 3005    |     |     | 1   |     |     |     |      |      |      | Enters 1 into rI2                                 |
+|         | LDA  | X,3     | 3006    |     |     |     |     | 15  |     |      |      |      | Stores 15 into rA                                 |
+|         | DEC3 | 1       | 3007    |     |     |     | 0   |     |     |      |      |      | Change rI3 to 0                                   |
+|         | J3P  | LOOP    | 3008    |     |     |     |     |     |     |      |      |      | rI3 is 0 so no Jump                               |
+| EXIT    | JMP  | 4       | 3009    |     |     |     |     |     |     |      |      |      | Jumps to location 4                               |
+|         | LDX  | X,1     | 4       |     |     |     |     |     | 13  |      |      |      | Load 13 into rX                                   |
+|         | STA  | X,1     | 5       |     |     |     |     |     |     |      |      | 15   | Store 15 into 1003                                |
+|         | STX  | X,2     | 6       |     |     |     |     |     |     | 13   | 11   | 15   | Store 13 into 1001                                |
+|         | DEC1 | 1       | 7       |     | 2   |     |     |     |     |      |      |      | Set rI2 to 2                                      |
+|         | J1P  | 1B      | 8       |     |     |     |     |     |     |      |      |      | Jump back to 1H                                   |
+| 1H      | JMP  | MAXIMUM | 3       | 4   |     |     |     |     |     |      |      |      | Stores 4 into rJ and jumps                        |
+| MAXIMUM | STJ  | EXIT    | 3000    |     |     |     |     |     |     |      |      |      | Stores address of 4 into address field of EXIT    |
+| INIT    | ENT3 | 0,1     | 3001    |     |     |     | 2   |     |     |      |      |      |                                                   |
+|         | JMP  | CHANGEM | 3002    |     |     |     |     |     |     |      |      |      |                                                   |
+| CHANGEM | ENT2 | 0,3     | 3005    |     |     | 2   |     |     |     |      |      |      |                                                   |
+|         | LDA  | X,3     | 3006    |     |     |     |     | 11  |     |      |      |      |                                                   |
+|         | DEC3 | 1       | 3007    |     |     |     | 1   |     |     |      |      |      |                                                   |
+|         | J3P  | LOOP    | 3008    |     |     |     |     |     |     |      |      |      |                                                   |
+| LOOP    | CMPA | X,3     | 3003    |     |     |     |     |     |     |      |      |      | rA=11, 1001=13, COMP=LT                           |
+|         | JGE  | *+3     | 3004    |     |     |     |     |     |     |      |      |      | LT so no Jump                                     |
+| CHANGEM | ENT2 | 0,3     | 3005    |     |     | 1   |     |     |     |      |      |      |                                                   |
+|         | LDA  | X,3     | 3006    |     |     |     |     | 13  |     |      |      |      |                                                   |
+|         | DEC3 | 1       | 3007    |     |     |     | 0   |     |     |      |      |      |                                                   |
+|         | J3P  | LOOP    | 3008    |     |     |     |     |     |     |      |      |      |                                                   |
+| EXIT    | JMP  | 4       | 3009    |     |     |     |     |     |     |      |      |      |                                                   |
+|         | LDX  | X,1     | 4       |     |     |     |     |     | 11  |      |      |      |                                                   |
+|         | STA  | X,1     | 5       |     |     |     |     |     |     |      | 13   |      |                                                   |
+|         | STX  | X,2     | 6       |     |     |     |     |     |     | 11   | 13   | 15   |                                                   |
+|         | DEC1 | 1       | 7       |     | 1   |     |     |     |     |      |      |      |                                                   |
+|         | J1P  | 1B      | 8       |     |     |     |     |     |     |      |      |      |                                                   |
+| 1H      | JMP  | MAXIMUM | 3       | 4   |     |     |     |     |     |      |      |      |                                                   |
+| MAXIMUM | STJ  | EXIT    | 3000    |     |     |     |     |     |     |      |      |      |                                                   |
+| INIT    | ENT3 | 0,1     | 3001    |     |     |     | 1   |     |     |      |      |      |                                                   |
+|         | JMP  | CHANGEM | 3002    |     |     |     |     |     |     |      |      |      |                                                   |
+| CHANGEM | ENT2 | 0,3     | 3005    |     |     | 1   |     |     |     |      |      |      |                                                   |
+|         | LDA  | X,3     | 3006    |     |     |     |     | 11  |     |      |      |      |                                                   |
+|         | DEC3 | 1       | 3007    |     |     |     | 0   |     |     |      |      |      |                                                   |
+|         | J3P  | LOOP    | 3008    |     |     |     |     |     |     |      |      |      |                                                   |
+| EXIT    | JMP  | 4       | 3009    |     |     |     |     |     |     |      |      |      |                                                   |
+|         | LDX  | X,1     | 4       |     |     |     |     |     | 11  |      |      |      |                                                   |
+|         | STA  | X,1     | 5       |     |     |     |     |     |     | 11   |      |      |                                                   |
+|         | STX  | X,2     | 6       |     |     |     |     |     |     | 11   | 13   | 15   |                                                   |
+|         | DEC1 | 1       | 7       |     | 0   |     |     |     |     |      |      |      |                                                   |
+|         | J1P  | 1B      | 8       |     |     |     |     |     |     |      |      |      |                                                   |
+|         | OUT  | X+1(1)  |         |     |     |     |     |     |     | 11   | 13   | 15   | Sorted Output is Pritned                          |
+|         | HLT  |         |         |     |     |     |     |     |     |      |      |      |                                                   |
+</details>
