@@ -45,22 +45,12 @@ class Deck:
 
 deck = Deck()
 deck.set_ordered_deck()
-top: Card = deck.top
-top.tag = 0
-# print(top)
-
-while top.next:
-    top = deck.deck[top.next]
-    top.tag = 0
-    # print(top)
-
 deck.shuffle()
-# print(top)
 
-# for card in deck.deck:
-#     print(deck.deck[card].next)
 top = deck.top
+top.tag = 0
 print(top)
 while top.next:
     top = deck.deck[top.next]
+    top.tag = 0
     print(top)
