@@ -798,3 +798,45 @@ Let us say this function sorted 3 numbers instead. How would it sort [15, 11, 13
 |         | OUT  | X+1(1)  |         |     |     |     |     |     |     | 11   | 13   | 15   | Sorted Output is Pritned                          |
 |         | HLT  |         |         |     |     |     |     |     |     |      |      |      |                                                   |
 </details>
+
+## 2.2.2 Sequential Allocation
+<details>
+<summary>Q1: How many items can be in the queue at one time without OVERFLOW OCCURRING?</summary>
+
+Answer: M - 1 not M
+
+Insert algorithm
+* if R == M, then R = 1 else R += 1
+* if R == F, then OVERFLOW
+* X[R] = Y
+
+Delete algorithm
+* if F == R, then UNDERFLOW;
+* if F == M, then F = 1 else F += 1
+* Y = X[F]
+
+Scenario: F = R = 0
+
+| Command | R == M? | Set R | R == F? | X[R] = Y | X[1] | x[2] | x[3] |
+|---------|---------|-------|---------|----------|------|------|------|
+| INS 5   | 0 != 3  | 1     | 1 != 0  | X[1] = 5 | 5    |      |      |
+| INS 6   | 1 != 3  | 2     | 2 != 0  | x[2] = 6 | 5    | 6    |      |
+| INS 7   | 2 != 3  | 3     | 3 != 0  | x[3] = 7 | 5    | 6    | 7    |
+| INS 8   | 3 == 3  | 1     | 1 != 0  | x[1] = 8 | 8    | 6    | 7    |
+
+As we see above no OVERFLOW occurred and now we have lost data!  
+We cannot store M number of items because we cannot detect overflow.  
+
+What if F = R = 1
+
+| Command | R == M? | Set R | R == F? | X[R] = Y | X[1] | x[2] | x[3] |
+|---------|---------|-------|---------|----------|------|------|------|
+| INS 5   | 1 != 3  | 2     | 2 != 1  | X[2] = 5 |      | 5    |      |      
+| INS 6   | 2 != 3  | 3     | 3 != 1  | x[3] = 6 |      | 5    | 6    |      
+| INS 7   | 3 == 3  | 1     | 1 == 1  | OVERFLOW | 5    | 6    | 7    |
+
+So we have given up a memory space but now we can see OVERFLOW gets triggered correctly.  
+
+Therefore, with this algorithm we must set F = R = 1 and so we can only store M -1 items before OVERFLOW is triggered.
+
+</details>
