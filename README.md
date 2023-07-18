@@ -840,3 +840,95 @@ So we have given up a memory space but now we can see OVERFLOW gets triggered co
 Therefore, with this algorithm we must set F = R = 1 and so we can only store M -1 items before OVERFLOW is triggered.
 
 </details>
+
+<details>
+<summary>Q2: Give specifications for "delete from rear" and "insert at front"</summary>
+
+### Delete from rear
+First attempt
+* If R = F; then UNDERFLOW
+* Y <- X[R]
+* R <- R - 1
+
+However, according to the answer I have missed out a step. That is setting R to M when R is 1.  
+At first I could not see why this is needed. After all if we take R = F = 1 then R cannot ever catch up to 1 surely?  
+However sequential allocation is done circulatory - after all there is a limited amount of memory.  
+This is not a straight rail track as it were it is more of a loop.  
+
+Scenario: 
+Initial values: M = 3, R = 1, F = 1  
+Instructions: INS 5, INS 6m DEL, INS 7  
+NUM[D] denotes a soft delete - it's safe to rewrite this location 
+
+| CMD             | STEP 1 | STEP 2 | STEP 3 | R   | F   | X1   | X2   | X3  |
+|-----------------|--------|--------|--------|-----|-----|------|------|-----|
+| INS 5           | R != M | R = 2  | R != F | 2   | 1   |      | 5    |     |
+| INS 6           | R != M | R = 3  | R != F | 3   | 1   |      | 5    | 6   |
+| DEL             | F != R | F != M | F = 2  | 3   | 2   |      | 5[D] | 6   |
+| INS 7           | R == M | R = 1  | R != F | 1   | 2   | 7    | 5[D] | 6   |  
+| DEL (FROM REAR) | R != F | R = 0  |        | 0   | 2   | 7[D] | 5[D] | 6   |
+
+As you can see from the table above we have set R to an invalid or unexpected memory location!  
+Therefore we must include the step of setting R to M  
+
+Complete answer  
+* If R = F; then UNDERFLOW
+* Y <- X[R]
+* If R = 1; then R <- M OTHERWISE R <- R - 1
+
+Now let us see that last line again
+
+| CMD             | STEP 1 | STEP 2 | R   | F   | X1   | X2   | X3  |
+|-----------------|--------|--------|-----|-----|------|------|-----|
+| DEL (FROM REAR) | R != F | R = 1  | 3   | 2   | 7[D] | 5[D] | 6   |
+
+### Insert at front
+
+First attempt
+* Given R = F = 1
+* If F = 1 Then F <- M Else F = F - 1
+* X[F] <- Y
+* If F = R then OVERFLOW
+
+However, the answer gives this in a different order
+
+Let us see what is the issue with this first attempt  
+We now have INS F, INS R, DEL F, DEL R commands  
+
+Given M = 3
+
+| CMD       | STEP 1 | STEP 2 | STEP 3   | R   | F   | X1  | X2  | X3  |
+|-----------|--------|--------|----------|-----|-----|-----|-----|-----|
+| INS F (5) | R != M | R = 2  | R != F   | 2   | 1   |     | 5   |     |
+| INS R (6) | F = 1  | F = 3  | R != F   | 2   | 3   |     | 5   | 6   |
+| INS R (7) | F != 1 | F = 2  | OVERFLOW | 2   | 2   |     | 7   |     |
+
+So we can see that the OVERFLOW happened too late in this example.   
+We have now overwritten X2 without the user expecting this behaviour.   
+Data integrity has been compromised.  
+
+What happens if we alter the algorithm so the assignment is after OVERFLOW?  
+* Given R = F = 1
+* If F = 1 Then F <- M Else F = F - 1
+* If F = R then OVERFLOW Else X[F] <- Y
+
+We can clearly see now that OVERFLOW would be triggered without a memory assignment.  
+
+However, in Donald Knuths answer the assignment to memory is done first.  
+
+* X[F] <- Y
+* If F = 1 Then F <- M Else F = F - 1
+* If F = R then OVERFLOW
+What effect would this have on our previous example?
+
+| CMD       | STEP 1 | STEP 2 | STEP 3   | R   | F   | X1  | X2  | X3  |
+|-----------|--------|--------|----------|-----|-----|-----|-----|-----|
+| INS F (5) | R != M | R = 2  | R != F   | 2   | 1   |     | 5   |     |
+| INS R (6) | F = 1  | F = 3  | R != F   | 2   | 3   | 6   | 5   |     |
+| INS R (7) | F != 1 | F = 2  | OVERFLOW | 2   | 2   | 6   | 5   | 7   |
+
+Both methods appear functional. They both store 5 and 6 in memory and trigger OVERFLOW when a third item is added.
+
+However, more complex scenarios would have to be engineered to understand the differences.  
+
+</details>
