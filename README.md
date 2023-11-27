@@ -932,3 +932,33 @@ Both methods appear functional. They both store 5 and 6 in memory and trigger OV
 However, more complex scenarios would have to be engineered to understand the differences.  
 
 </details>
+
+<details>
+<summary>Q3: A Mix Extension - indirect addressing</summary>
+The indirect addressing works by adding the result of the index register  
+You will notice that this is an addition because we have an extra field at location 7  
+
+Location 1000 = NOP 1000,1:7  
+Location 1001 = NOP 1000,2  
+Index register 1 = 1  
+Index register 2 = 2  
+
+Let us now work through the equivalent of the following instruction   
+LDA 1000,7:2  
+
+In location 1000 we have 1000,1:7 so let us replace 1000,7 with this instruction. The 7 indicates all fields are used.  
+LDA (1000,1:7),2  
+This is where we add the value of index 1, 1 to the value of 1000.  
+LDA (1001,7),2  
+We now take all the fields of 1001 (NOP 1000,2) and replace 1000,7 with this instuction
+LDA (1000,2), 2  
+Now we add the contents of i2 to the value of 1000  
+LDA 1002, 2
+Again we add the contents of i2 to the value of 1000  
+LDA 1004
+
+So this would come in handy when certain locations are unknown we can now store locations as variables and access them, indirectly.  
+
+
+
+</details>
