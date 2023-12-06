@@ -11,6 +11,7 @@ Some algorithms that I have implemented so far are
 * [Get the bionomial coefficient 1.2.6](/exercises/chapter_1/two/binomial_coefficients.py)
 * [Get h - the harmonic number 1.2.7](exercises/chapter_1/two/harmonic_numbers.py)
 * [A game you can't win - play on the command line if you do not believe me!](applications/counters_game.py) - Based on a practical application of Fibonacci numbers
+* [Topological Sort](exercises/chapter_2/linked_allocation/topological_sort.py)
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>

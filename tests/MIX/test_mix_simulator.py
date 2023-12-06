@@ -46,3 +46,19 @@ class TestMixSimulator(unittest.TestCase):
         mix.user_input = [" JMP here", "here LDA 2000"]
         mix.run()
         self.assertEqual(mix.memory[0].address, 1)
+
+    def test_store_a_overwrites_memory_correctly(self):
+        mix = MixSimulator()
+        mix.ra = Instruction(sign="+", address=67, register=8, modification=9, operation=0)
+        mix.memory[2000] = Instruction(sign="-", address=12, register=3, modification=4, operation=5)
+        mix.user_input = [" STA 2000(5:5)"]
+        mix.run()
+        self.assertEqual(mix.memory[2000].sign, "-")
+        self.assertEqual(mix.memory[2000].address, 12)
+        self.assertEqual(mix.memory[2000].register, 3)
+        self.assertEqual(mix.memory[2000].modification, 4)
+        self.assertEqual(mix.memory[2000].operation, 0)
+
+    def test_Store_a_only_overwrites_some_memory(self):
+        mix = MixSimulator()
+        mix.ra = Instruction(sign="+", address=67, register=8, modification=9, operation=0)
