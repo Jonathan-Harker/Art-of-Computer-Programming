@@ -12,6 +12,70 @@ Some algorithms that I have implemented so far are
 * [Get h - the harmonic number 1.2.7](exercises/chapter_1/two/harmonic_numbers.py)
 * [A game you can't win - play on the command line if you do not believe me!](applications/counters_game.py) - Based on a practical application of Fibonacci numbers
 * [Topological Sort](exercises/chapter_2/linked_allocation/topological_sort.py)
+
+## MIX Design & Build
+What would MIX look like if we attempted to build it?
+
+<details>
+  <summary>How it works</summary>
+The oscillator increases its count by 1.
+
+The address is then fetched from the internal memory.
+
+The content of the memory is then put on the opcode register.
+
+The opcode decoder then translates the opcode into the action that needs to be taken. For example:
+
+* A calculation by the ALU
+  * The output will typically be written to a register or memory row
+* A copy of contents from register to memory
+* A copy of contents of register to register
+* A copy of contents of memory to register
+</details>
+<details>
+  <summary>Overview</summary>
+  At a high level we would need
+
+  * An oscillator 
+  * 4000 rows of Memory address
+  * Register A
+  * Regsiter X
+  * I Registers 1 - 5
+  * J Register
+  * Overflow Indicator
+  * GLE Indicator
+  * OpCode Register
+  * OpCode Decoder
+  * ALU Chip
+</details>
+
+<details>
+  <summary>Memory</summary>
+There are 4000 rows of memory.  
+Each row of memory contains a +/- sign followed by 5 memory cells.  
+
+Each memory cell can contain 64 values so 6 bits of information.  
+We require 1 bit for the +/- sign and 6 bits * 5 cells for the row.
+
+Each row therefore requires 31 bits. As a power of 2 we require 32 bits of memory per address row.  
+
+Total memory capacity of MIX = 32 * 4000 = 128000 bits = 16kb of memory
+
+Memory row:
+
+At minimum each row will need to be divided across 4 8 bit SRAM chips.  
+
+For simplicity, we could use 5 SRAM chips using only 6 bits, so we have 1 for each cell.
+</details>
+
+<details>
+  <summary>Operation Code Handling</summary>
+</details>
+
+<details>
+  <summary>Registers</summary>
+</details>
+
 ## 1.1 Euclids Algorithm
 <details>
   <summary>Exercise 1: Rearrange Items</summary>
