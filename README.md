@@ -13,6 +13,65 @@ Some algorithms that I have implemented so far are
 * [A game you can't win - play on the command line if you do not believe me!](applications/counters_game.py) - Based on a practical application of Fibonacci numbers
 * [Topological Sort](exercises/chapter_2/linked_allocation/topological_sort.py)
 
+## Basic Notation
+Let's Examine 2.2.4 - Circular Lists - operation 1  
+
+<details>
+  <summary>Avail</summary>
+P <= AVAIL  
+Take an empty memory block and assign this to P.  
+
+Imagine we have memory blocks as follows  
+ ```
+ 99 [...]
+ 100 [...]
+ 101 [...]
+ ```
+
+P would then reference memory block 99. The internal pointer to AVAIL would then be set to 100.  
+</details>
+<details>
+  <summary>Properties</summary>
+In the circular reference example we have 2 properties, info and link.  
+
+```INFO[P] <- Y```  
+Set the contents of Y, a temporary variable, perhaps held on a register, to INFO(P).  
+
+In python this would be like a class P been set 
+```python
+p = P()
+p.info = new_data
+```
+
+And the same with ```LINK(P) <- LINK(PTR)```
+```python
+p.link = ptr.link
+```
+</details>
+
+<details>
+    <summary>Objects</summary>
+Sometimes we see an entire object been set such as 
+```LINK(PTR) <- P``` how can an object be copied to a property?
+
+This is not what is happening. For all intents and purposes an instantiated object IS a reference in memory.
+What happens if we actually do this in Python?
+```python
+class MyClass:
+    a: int
+    b: int
+
+my_class = MyClass()
+print(my_class)
+```
+Result?  
+```>>> <__main__.MyClass object at 0x123456789>```  
+So we can see that an instantiated object is closely tied to the location it can be found out.  
+
+When we see ```LINK(PTR) <- P``` we are instructed to take the location of P and store it on PTR.link
+</details>
+
+
 ## MIX Design & Build
 What would MIX look like if we attempted to build it?
 
@@ -1026,4 +1085,221 @@ So this would come in handy when certain locations are unknown we can now store 
 
 
 
+</details>
+
+
+## 2.2.4 Circular Lists
+<details>
+<summary>Adding Polynomials</summary>
+
+[x + y + z] + [x<sup>2</sup> -2y -z] 
+
+### Representation P
+
++1X<sup>1</sup> @ 000 001
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 1   | 0   | 0   | 000 | 002 |
+
++1Y<sup>1</sup> @ 000 002
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 1   | 0   | 000 | 003 |
+
++1Z<sup>1</sup> @ 000 003
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 0   | 1   | 000 | 004 |
+
+Sentinel @ 000 004
+
+|     |     |     |     |     | 0   |
+|-----|-----|-----|-----|-----|-----|
+| -   | 0   | 0   | 1   | 000 | 001 |
+
+### Representation Q
++1X<sup>2</sup> @ 000 005
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 2   | 0   | 0   | 000 | 006 |
+
+-2Y<sup>1</sup> @ 000 006
+
+|     |     |     |     |     | -2  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 1   | 0   | 000 | 007 |
+
+-1Z<sup>1</sup> @ 000 007
+
+|     |     |     |     |     | -1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 0   | 1   | 000 | 008 |
+
+Sentinel @ 000 008
+
+|     |     |     |     |     | 0   |
+|-----|-----|-----|-----|-----|-----|
+| -   | 0   | 0   | 1   | 000 | 006 |
+
+### Algorithm Step by Step
+
+#### A1
+P = 000 001, Q = 000 006
+
+#### A2
+ABC(P) = 100  
+ABC(Q) = 200  
+ABC(Q) > ABC(P)  
+
+Q1 = 000 005  
+Q = 000 006
+
+#### A2
+P = 000 001, Q = 000 006
+ABC(P) = 100  
+ABC(Q) = 10
+ABC(P) > ABC(Q)
+
+#### A5
+Insert new block into Q
+Q1 = 000 009  
+P = 000 002
+
+<details>
+<summary>New representation of Q after A5</summary>  
+
++1X<sup>2</sup> @ 000 005
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 2   | 0   | 0   | 000 | 009 |
+
++1X<sup>1</sup> @ 000 009
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 1   | 0   | 0   | 000 | 006 |
+
+-2Y<sup>1</sup> @ 000 006
+
+|     |     |     |     |     | -2  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 1   | 0   | 000 | 007 |
+
+-1Z<sup>1</sup> @ 000 007
+
+|     |     |     |     |     | -1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 0   | 1   | 000 | 008 |
+
+Sentinel @ 000 008
+
+|     |     |     |     |     | 0   |
+|-----|-----|-----|-----|-----|-----|
+| -   | 0   | 0   | 1   | 000 | 006 |
+</details>
+
+#### A2
+P = 000 002, Q = 000 006  
+ABC(P) = 010  
+ABC(Q) = 010
+
+#### A3
+COEF(Q) = -1
+P = 000 003
+Q1 = 000 006
+Q = 000 007
+
+
+<details>
+<summary> New representation of Q after A3</summary>
+
++1X<sup>2</sup> @ 000 005
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 2   | 0   | 0   | 000 | 009 |
+
++1X<sup>1</sup> @ 000 009
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 1   | 0   | 0   | 000 | 006 |
+
+-Y<sup>1</sup> @ 000 006
+
+|     |     |     |     |     | -1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 1   | 0   | 000 | 007 |
+
+-1Z<sup>1</sup> @ 000 007
+
+|     |     |     |     |     | -1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 0   | 1   | 000 | 008 |
+
+Sentinel @ 000 008
+
+|     |     |     |     |     | 0   |
+|-----|-----|-----|-----|-----|-----|
+| -   | 0   | 0   | 1   | 000 | 006 |
+</details>
+
+### A2
+P = 000 003, Q = 000 007
+ABC(P) = 001
+ABC(Q) = 001
+
+### A3
+COEF(Q) = 0
+
+### A4
+Q1 = 000 006  
+Q2 = 000 007  
+Q = 000 008  
+LINK(Q1) = 000 008  
+P = 000 0004
+
+<details>
+<summary> New representation of Q after A4</summary>
+
++1X<sup>2</sup> @ 000 005
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 2   | 0   | 0   | 000 | 009 |
+
++1X<sup>1</sup> @ 000 009
+
+|     |     |     |     |     | +1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 1   | 0   | 0   | 000 | 006 |
+
+-Y<sup>1</sup> @ 000 006
+
+|     |     |     |     |     | -1  |
+|-----|-----|-----|-----|-----|-----|
+| +   | 0   | 1   | 0   | 000 | 008 |
+
+
+Sentinel @ 000 008
+
+|     |     |     |     |     | 0   |
+|-----|-----|-----|-----|-----|-----|
+| -   | 0   | 0   | 1   | 000 | 006 |
+</details>
+
+### A2
+P = 000 0004, Q = 000 008
+ABC(P) = -001
+ABC(Q) = -001
+
+### A3
+End
+
+Current contents of Q are X<sup>2</sup> +X -Y which is the correct solution to [x + y + z] + [x<sup>2</sup> -2y -z]
 </details>
