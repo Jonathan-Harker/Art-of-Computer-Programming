@@ -4,11 +4,11 @@ As I enjoy getting lost in the world of algorithms I have made a project out of 
 Here are my attempts some exercise solutions in form of documentation and code.
 
 Some algorithms that I have implemented so far are 
-* [Euclids Algorithm 1.1](/exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
-* [Log Calculator 1.2.2](/exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
-* [Return numbers with only ones in any base recursively 1.2.3](/exercises/chapter_1/two/only_ones.py)
-* [Calculate Modulus 1.2.4](/exercises/chapter_1/two/calculate_modulus.py)
-* [Get the bionomial coefficient 1.2.6](/exercises/chapter_1/two/binomial_coefficients.py)
+* [Euclids Algorithm 1.1](exercises/chapter_1/one/euclids_algorithm.py) - the highest common divisor of 2 numbers
+* [Log Calculator 1.2.2](exercises/chapter_1/two/log_calculator.py) - An approximation that uses log table constants
+* [Return numbers with only ones in any base recursively 1.2.3](exercises/chapter_1/two/only_ones.py)
+* [Calculate Modulus 1.2.4](exercises/chapter_1/two/calculate_modulus.py)
+* [Get the bionomial coefficient 1.2.6](exercises/chapter_1/two/binomial_coefficients.py)
 * [Get h - the harmonic number 1.2.7](exercises/chapter_1/two/harmonic_numbers.py)
 * [A game you can't win - play on the command line if you do not believe me!](applications/counters_game.py) - Based on a practical application of Fibonacci numbers
 * [Topological Sort](exercises/chapter_2/linked_allocation/topological_sort.py)
@@ -1302,4 +1302,87 @@ ABC(Q) = -001
 End
 
 Current contents of Q are X<sup>2</sup> +X -Y which is the correct solution to [x + y + z] + [x<sup>2</sup> -2y -z]
+</details>
+<details>
+  <summary>Q2: Draw "before and after" diagrams illustrating the effect of the concatenation operation (3), assuming that PTR<sub>1</sub> and PTR<sub>2</sub> are != Terminal</summary> 
+
+This operation joins 2 distinct circular lists together
+### Conditions
+L1  
+[..10..] -> [..11..] -> [..12..] -> [..13..] -> [..14..] -> [..15..] -> points back to start
+
+L2  
+[..16..] -> [..17..] -> [..18..] -> [..19..] -> [..20..] -> [..21..] -> points back to start
+
+Operation 3:   
+* LINK(PTR<sub>1</sub>) <-> LINK(PTR<sub>2</sub>)  
+* SET PTR<sub>1</sub> <- PTR<sub>2</sub>
+* SET PTR<sub>2</sub> <- ƛ
+
+### Setup
+PTR<sub>1</sub> = 15  
+PTR<sub>2</sub> = 21
+
+### Operations
+#### LINK(PTR<sub>1</sub>) <-> LINK(PTR<sub>2</sub>)
+15.link = 16  
+21.link = 10  
+
+L1  
+[..10..] -> [..11..] -> [..12..] -> [..13..] -> [..14..] -> [..15..] -> [..16..] -> [..17..] -> [..18..] -> [..19..] -> [..20..] -> [..21..] -> points back to start  
+PTR<sub>1</sub> = 15  
+PTR<sub>2</sub> = 21
+
+#### SET PTR<sub>1</sub> <- PTR<sub>2</sub>
+PTR<sub>1</sub> = 21  
+PTR<sub>2</sub> = 21
+
+#### SET PTR<sub>2</sub> <- ƛ
+PTR<sub>2</sub> = ƛ
+
+#### Result
+[..10..] -> [..11..] -> [..12..] -> [..13..] -> [..14..] -> [..15..] -> [..16..] -> [..17..] -> [..18..] -> [..19..] -> [..20..] -> [..21..] -> points back to start  
+
+PTR<sub>1</sub> = 21
+</details>
+
+<details>
+  <summary>What does operation (3) do if PTR<sub>1</sub> and PTR<sub>2</sub> are both pointing to nodes in the same circular list?</summary>
+
+The only effect is that PTR<sub>2</sub> is set to ƛ
+### Conditions
+L1  
+[..10..] -> [..11..] -> [..12..] -> points back to start
+
+### Setup
+PTR<sub>1</sub> = 12  
+PTR<sub>2</sub> = 12
+
+Operation 3:   
+* LINK(PTR<sub>1</sub>) <-> LINK(PTR<sub>2</sub>)  
+* SET PTR<sub>1</sub> <- PTR<sub>2</sub>
+* SET PTR<sub>2</sub> <- ƛ
+
+### Operations
+#### LINK(PTR<sub>1</sub>) <-> LINK(PTR<sub>2</sub>)
+LINK(PTR<sub>1</sub>) = 10  
+LINK(PTR<sub>2</sub>) = 10
+
+L1  
+[..10..] -> [..11..] -> [..12..] -> points back to start  
+PTR<sub>1</sub> = 12  
+PTR<sub>2</sub> = 12
+
+#### SET PTR<sub>1</sub> <- PTR<sub>2</sub>
+PTR<sub>1</sub> = 12
+PTR<sub>2</sub> = 12
+
+#### SET PTR<sub>2</sub> <- ƛ
+PTR<sub>2</sub> = ƛ
+
+#### Result
+[..10..] -> [..11..] -> [..12..] -> points back to start  
+PTR<sub>1</sub> = 12
+PTR<sub>2</sub> = ƛ
+
 </details>

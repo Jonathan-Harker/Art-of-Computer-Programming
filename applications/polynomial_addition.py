@@ -1,7 +1,7 @@
 import uuid
 from typing import List, Dict
 
-from exercises.chapter_2.circular_lists.polynomial import Polynomial
+from applications.dataclasses.polynomial import Polynomial
 
 
 class PolynomialAddition:
@@ -42,6 +42,8 @@ class PolynomialAddition:
         if abc_p > abc_q:
             return self._a5(p, q, q1)
 
+        raise RuntimeError
+
     def _a5(self, p, q, q1):
         p_poly = self.map[p]
         q2 = str(uuid.uuid4())
@@ -81,7 +83,6 @@ class PolynomialAddition:
 
         return self.compare(p=p, q=q, q1=q_1)
 
-
     def _a4(self, p: str, q: str, q1: str) -> List[Polynomial]:
         q2 = q
         q1_poly = self.map[q1]
@@ -105,8 +106,6 @@ class PolynomialAddition:
         abc = int(f"{sign}{qx}{qy}{qz}")
 
         return abc
-
-
 
     def _setup(self):
         for poly in self.poly_p:

@@ -1,8 +1,8 @@
 import unittest
 import uuid
 
-from exercises.chapter_2.circular_lists.polynomial import Polynomial
-from exercises.chapter_2.circular_lists.polynomial_addition import PolynomialAddition
+from applications.dataclasses.polynomial import Polynomial
+from applications.polynomial_addition import PolynomialAddition
 
 
 class TestPolynomialAddition(unittest.TestCase):
