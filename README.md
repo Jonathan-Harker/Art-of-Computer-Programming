@@ -1386,3 +1386,16 @@ PTR<sub>1</sub> = 12
 PTR<sub>2</sub> = ƛ
 
 </details>
+
+## 2.2.5 Doubly Linked Lists - The Elevator
+
+<details>
+
+<summary>Explaining the Elevator</summary>
+
+### Setup
+* Register I4 is used for the current floor level of the lift
+  * There are only 5 levels so we store the numbers 0 - 4 which can be done in just 3 bits
+* Register I5 is used for the state of the lift
+
+</details>
